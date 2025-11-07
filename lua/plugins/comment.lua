@@ -1,41 +1,28 @@
 return {
 	"numToStr/Comment.nvim",
-	keys = {
-		-- Fast toggle for a single line or a visual selection
-		{
-			"<leader>/",
-			function()
-				require("Comment.api").toggle.linewise.current()
-			end,
-			desc = "Comment line",
-		},
-		{
-			"<leader>/",
-			function()
-				require("Comment.api").toggle.linewise(vim.fn.visualmode())
-			end,
-			mode = "x",
-			desc = "Comment selection",
-		},
-
-		-- Simple block comment toggles (line + visual)
-		{
-			"<leader>cB",
-			function()
-				require("Comment.api").toggle.blockwise.current()
-			end,
-			desc = "Block comment line",
-		},
-		{
-			"<leader>cB",
-			function()
-				require("Comment.api").toggle.blockwise(vim.fn.visualmode())
-			end,
-			mode = "x",
-			desc = "Block comment selection",
-		},
-	},
 	config = function()
 		require("Comment").setup()
+
+		-- Line comment toggle (like VS Code)
+		vim.keymap.set("n", "<leader>/", function()
+			require("Comment.api").toggle.linewise.current()
+		end, { desc = "Toggle line comment" })
+
+		vim.keymap.set("v", "<leader>/", function()
+			local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
+			vim.api.nvim_feedkeys(esc, "nx", false)
+			require("Comment.api").toggle.linewise(vim.fn.visualmode())
+		end, { desc = "Toggle line comment" })
+
+		-- Block comment toggle
+		vim.keymap.set("n", "<leader>cb", function()
+			require("Comment.api").toggle.blockwise.current()
+		end, { desc = "Toggle block comment" })
+
+		vim.keymap.set("v", "<leader>cb", function()
+			local esc = vim.api.nvim_replace_termcodes("<ESC>", true, false, true)
+			vim.api.nvim_feedkeys(esc, "nx", false)
+			require("Comment.api").toggle.blockwise(vim.fn.visualmode())
+		end, { desc = "Toggle block comment" })
 	end,
 }

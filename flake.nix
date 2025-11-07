@@ -6,7 +6,6 @@
   };
 
   outputs = inputs @ {
-    nixpkgs,
     flake-parts,
     devenv,
     ...
@@ -15,14 +14,15 @@
       imports = [devenv.flakeModule];
       systems = ["x86_64-linux" "aarch64-darwin"];
 
-      perSystem = {system, ...}: {
+      perSystem = {pkgs, ...}: {
         devenv.shells.default = {
-          languages.nix = {
-            enable = true;
-          };
+          languages = {
+            lua.enable = true;
 
-          languages.lua = {
-            enable = true;
+            nix = {
+              enable = true;
+              lsp.package = pkgs.nixd;
+            };
           };
 
           git-hooks.hooks = {
