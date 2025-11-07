@@ -1,7 +1,3 @@
-# Stylix colorscheme (Nix)
-**/stylix-loader.lua
-
 .envrc
 .direnv/
-.devenv/
-
+.pre-commit-config.yaml
