@@ -1,10 +1,3 @@
-local servers = {
-	"lua_ls",
-	"nixd",
-	"rust_analyzer",
-	"pyright",
-}
-
 local lsp_keymaps = {
 	-- { mode(s), key, action, description }
 	{ "n", "gd", vim.lsp.buf.definition, "Go to definition" },
@@ -90,19 +83,20 @@ return {
 			end
 		end
 
-		for _, name in ipairs(servers) do
-			local opts = { on_attach = on_attach, capabilities = capabilities }
-			if name == "lua_ls" then
-				opts.settings = {
+		-- Server configurations
+		local server_configs = {
+			lua_ls = {
+				settings = {
 					Lua = {
 						runtime = { version = "LuaJIT" },
 						diagnostics = { globals = { "vim" } },
 						workspace = { checkThirdParty = false },
 						telemetry = { enable = false },
 					},
-				}
-			elseif name == "rust_analyzer" then
-				opts.settings = {
+				},
+			},
+			rust_analyzer = {
+				settings = {
 					["rust-analyzer"] = {
 						checkOnSave = {
 							command = "clippy",
@@ -123,17 +117,28 @@ return {
 							typeHints = { enable = true },
 						},
 					},
-				}
-			elseif name == "nixd" then
-				opts.settings = {
+				},
+			},
+			nixd = {
+				settings = {
 					nixd = {
 						formatting = {
 							command = { "alejandra" },
 						},
 					},
-				}
-			end
-			lspconfig[name].setup(opts)
+				},
+			},
+			pyright = {},
+			gopls = {},
+		}
+
+		-- Setup all servers manually
+		-- This works with both Mason-installed and manually installed LSPs
+		-- (Mason is lazy-loaded and only used when user runs :Mason)
+		for server_name, config in pairs(server_configs) do
+			config.on_attach = on_attach
+			config.capabilities = capabilities
+			lspconfig[server_name].setup(config)
 		end
 	end,
 }

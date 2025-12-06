@@ -36,7 +36,18 @@ return {
 			table.insert(sources, formatting.rustfmt)
 		end
 
-		null_ls.setup({
+		-- Go
+		if vim.fn.executable("gofumpt") == 1 then
+			table.insert(sources, formatting.gofumpt)
+		end
+		if vim.fn.executable("goimports") == 1 then
+			table.insert(sources, formatting.goimports)
+		end
+		if vim.fn.executable("golangci-lint") == 1 then
+			table.insert(sources, diagnostics.golangci_lint)
+		end
+
+	null_ls.setup({
 			sources = sources,
 			on_attach = function(client, bufnr)
 				local map = function(mode, lhs, rhs, desc)

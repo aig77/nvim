@@ -1,21 +1,14 @@
-{pkgs ? import <nixpkgs> {}}: let
-  pre-commit-hooks = import (
-    builtins.fetchTarball
-    "https://github.com/cachix/pre-commit-hooks.nix/tarball/master"
-  );
+{pkgs ? import <nixpkgs> {}}:
+pkgs.mkShell {
+  packages = with pkgs; [
+    # Tools for developing this Neovim configuration
+    lua
+    stylua
+    luacheck
+  ];
 
-  pre-commit-check = pre-commit-hooks.run {
-    src = ./.;
-    hooks = {
-      stylua.enable = true;
-      luacheck = {
-        enable = true;
-        args = ["init.lua" "./lua" "--globals" "vim"];
-      };
-    };
-  };
-in
-  pkgs.mkShell {
-    inherit (pre-commit-check) shellHook;
-    packages = with pkgs; [lua git];
-  }
+  shellHook = ''
+    echo "Neovim config development environment"
+    echo "Use 'stylua .' to format and 'luacheck . --globals vim' to lint"
+  '';
+}
