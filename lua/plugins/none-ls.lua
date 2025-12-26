@@ -31,10 +31,7 @@ return {
 			table.insert(sources, formatting.ruff)
 		end
 
-		-- Rust
-		if vim.fn.executable("rustfmt") == 1 then
-			table.insert(sources, formatting.rustfmt)
-		end
+		-- Rust formatting is handled by rust_analyzer's builtin rustfmt
 
 		-- Go
 		if vim.fn.executable("gofumpt") == 1 then
@@ -47,7 +44,7 @@ return {
 			table.insert(sources, diagnostics.golangci_lint)
 		end
 
-	null_ls.setup({
+		null_ls.setup({
 			sources = sources,
 			on_attach = function(client, bufnr)
 				local map = function(mode, lhs, rhs, desc)
