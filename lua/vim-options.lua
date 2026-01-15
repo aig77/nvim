@@ -6,6 +6,7 @@ vim.opt.shiftwidth = 2 -- Number of spaces used for auto-indent (>> << etc.)
 vim.opt.number = true -- Shows absolute line numbers for all lines
 vim.opt.relativenumber = false -- Shows relative numbers except current line
 vim.opt.wrap = false 
+vim.opt.sidescrolloff = 10 -- Keeps 8 columns of context when scrolling horizontally
 vim.opt.termguicolors = true
 
 -- Copy to system clipboard
