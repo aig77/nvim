@@ -4,8 +4,8 @@ vim.opt.tabstop = 2 -- Number of spaces a tab counts for
 vim.opt.softtabstop = 2 -- Number of spaces for editing tabs (e.g., when pressing <Tab>)
 vim.opt.shiftwidth = 2 -- Number of spaces used for auto-indent (>> << etc.)
 vim.opt.number = true -- Shows absolute line numbers for all lines
-vim.opt.relativenumber = true -- Shows relative numbers except current line
-vim.opt.wrap = true
+vim.opt.relativenumber = false -- Shows relative numbers except current line
+vim.opt.wrap = false 
 vim.opt.termguicolors = true
 
 -- Copy to system clipboard
